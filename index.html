@@ -1,117 +1,174 @@
-<!-- 主页面 index.html -->
+<!-- 页面二 page2/index.html -->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>主页面 - xiafancat.github.io/ra</title>
-    <link rel="stylesheet" href="style.css">
+    <title>页面二 - xiafancat.github.io/ra</title>
+    <link rel="stylesheet" href="../style.css">
     <style>
-        .hero {
-            background: linear-gradient(135deg, #3498db, #2c3e50);
+        .page-banner {
+            background: linear-gradient(135deg, #e74c3c, #e67e22);
             color: white;
-            padding: 80px 20px;
             text-align: center;
-        }
-        
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 50px 0;
-        }
-        
-        .feature-card {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-            padding: 30px;
-            transition: transform 0.3s;
-        }
-        
-        .feature-card:hover {
-            transform: translateY(-10px);
-        }
-        
-        .page-links {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
+            padding: 70px 20px;
+            border-radius: var(--border-radius);
             margin: 40px 0;
         }
         
-        .page-link {
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 50px 0;
+        }
+        
+        .feature-box {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+        }
+        
+        .feature-box h3 {
+            color: #e74c3c;
+        }
+        
+        .data-section {
+            background: #2c3e50;
+            color: white;
+            padding: 50px;
+            border-radius: var(--border-radius);
+            margin: 60px 0;
+        }
+        
+        .data-card {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .stat-value {
+            display: block;
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-label {
+            font-size: 1.2rem;
+        }
+        
+        .back-section {
+            text-align: center;
+            margin: 50px 0;
+        }
+        
+        .back-button {
             display: inline-block;
             background: #3498db;
             color: white;
             text-decoration: none;
-            padding: 15px 30px;
+            padding: 15px 40px;
             border-radius: 30px;
-            font-weight: bold;
+            font-size: 1.2rem;
             transition: all 0.3s;
         }
         
-        .page-link:hover {
+        .back-button:hover {
             background: #2980b9;
             transform: scale(1.05);
         }
         
-        .domain-info {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 30px 0;
-            text-align: center;
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .stats {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .data-section {
+                padding: 30px 20px;
+            }
         }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>xiafancat.github.io/ra</h1>
+            <h1>xiafancat.github.io/ra/page2</h1>
             <nav>
                 <ul>
-                    <li><a href="./">首页</a></li>
-                    <li><a href="./page1/">页面一</a></li>
-                    <li><a href="./page2/">页面二</a></li>
+                    <li><a href="../">首页</a></li>
+                    <li><a href="../page1/">页面一</a></li>
+                    <li><a href="./" class="active">页面二</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <section class="hero">
-        <div class="container">
-            <h2>欢迎访问 xiafancat.github.io/ra</h2>
-            <p>这是一个多页面网站示例，展示了如何在同一域名下创建子页面</p>
-        </div>
-    </section>
-
     <main class="container">
-        <section class="features">
-            <div class="feature-card">
-                <h3>简单实现</h3>
-                <p>通过文件目录结构创建子页面，无需复杂配置</p>
+        <section class="page-banner">
+            <h2>页面二内容展示</h2>
+            <p>这是我们的第二个子页面，具有不同的设计和布局</p>
+        </section>
+        
+        <section class="features-grid">
+            <div class="feature-box">
+                <h3>功能一</h3>
+                <p>这个页面展示了完全不同的布局和设计风格</p>
             </div>
-            <div class="feature-card">
-                <h3>独立内容</h3>
-                <p>每个子页面可以有自己的HTML、CSS和JavaScript</p>
+            <div class="feature-box">
+                <h3>功能二</h3>
+                <p>每个子页面可以独立开发和更新，互不影响</p>
             </div>
-            <div class="feature-card">
-                <h3>SEO友好</h3>
-                <p>每个页面都有独立的URL，有利于搜索引擎优化</p>
+            <div class="feature-box">
+                <h3>功能三</h3>
+                <p>通过文件夹结构组织内容，便于维护</p>
             </div>
         </section>
-
-        <div class="domain-info">
-            <h3>当前域名路径</h3>
-            <p><code>https://xiafancat.github.io/ra</code></p>
-            <p>所有页面和资源都使用相对路径，确保在您的域名下正常工作</p>
-        </div>
-
-        <div class="page-links">
-            <a href="./page1/" class="page-link">访问页面一</a>
-            <a href="./page2/" class="page-link">访问页面二</a>
-        </div>
+        
+        <section class="data-section">
+            <div class="data-card">
+                <h3>页面统计</h3>
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-value">95%</span>
+                        <span class="stat-label">用户满意度</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">10K+</span>
+                        <span class="stat-label">月访问量</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">24/7</span>
+                        <span class="stat-label">服务可用性</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <section class="back-section">
+            <a href="../" class="back-button">返回首页</a>
+        </section>
     </main>
 
     <footer>
