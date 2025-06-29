@@ -1,48 +1,149 @@
+<!-- 页面一 page1/index.html -->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>硅基流动 - 评论分析报告生成器</title>
-    <link rel="stylesheet" href="style.css">
+    <title>页面一 - xiafancat.github.io/ra</title>
+    <link rel="stylesheet" href="../style.css">
+    <style>
+        .page-header {
+            text-align: center;
+            padding: 60px 0;
+            background: linear-gradient(135deg, #9b59b6, #3498db);
+            color: white;
+            border-radius: var(--border-radius);
+            margin: 40px 0;
+        }
+        
+        .content-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin: 50px 0;
+        }
+        
+        .info-card {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+        }
+        
+        .info-card ul {
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+        
+        .info-card li {
+            margin-bottom: 10px;
+        }
+        
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+        
+        .gallery-item {
+            background: #3498db;
+            height: 150px;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .cta-section {
+            text-align: center;
+            padding: 50px 0;
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            margin: 40px 0;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: var(--accent-color);
+            color: white;
+            text-decoration: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-top: 20px;
+            transition: all 0.3s;
+        }
+        
+        .cta-button:hover {
+            background: #c0392b;
+            transform: scale(1.05);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 900px) {
+            .content-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .image-gallery {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <h1>评论分析报告生成器</h1>
-        <p>上传评论文件，自动生成多维分析报告</p>
-        
-        <div class="upload-section">
-            <h3>上传评论文件</h3>
-            <div class="file-input-wrapper">
-                <div class="file-input-label">选择文件</div>
-                <input type="file" id="file-input" multiple accept=".txt">
-            </div>
-            <p class="hint">支持格式: TXT文本文件 (最大5MB)</p>
-            
-            <ul id="file-list"></ul>
-            
-            <button id="generate-btn">生成分析报告</button>
+    <header>
+        <div class="container">
+            <h1>xiafancat.github.io/ra/page1</h1>
+            <nav>
+                <ul>
+                    <li><a href="../">首页</a></li>
+                    <li><a href="./" class="active">页面一</a></li>
+                    <li><a href="../page2/">页面二</a></li>
+                </ul>
+            </nav>
         </div>
-        
-        <div class="loading" id="loading">
-            <div>分析中，请稍候...</div>
-            <div class="loader"></div>
-        </div>
-        <div class="error" id="error-message" style="display:none"></div>
-        
-        <div id="result-area">
-            <div class="success" id="success-message"></div>
-            <div class="action-buttons">
-                <button id="download-btn">下载完整报告</button>
-                <button id="view-btn">在当前页面显示</button>
-            </div>
-        </div>
-        
-        <div id="report-viewer">
-            <iframe id="report-frame" sandbox="allow-scripts"></iframe>
-        </div>
-    </div>
+    </header>
 
-    <script src="app.js"></script>
+    <main class="container">
+        <section class="page-header">
+            <h2>欢迎来到页面一</h2>
+            <p>这是我们的第一个子页面，展示了独立的内容和样式</p>
+        </section>
+        
+        <section class="content-section">
+            <div class="info-card">
+                <h3>页面特点</h3>
+                <p>此页面有自己的HTML文件和特定的样式表</p>
+                <ul>
+                    <li>URL: https://xiafancat.github.io/ra/page1/</li>
+                    <li>特定样式: 当前页面的内联CSS</li>
+                    <li>路径结构: 使用相对路径引用资源</li>
+                </ul>
+            </div>
+            
+            <div class="image-gallery">
+                <div class="gallery-item">图片 1</div>
+                <div class="gallery-item">图片 2</div>
+                <div class="gallery-item">图片 3</div>
+            </div>
+        </section>
+        
+        <section class="cta-section">
+            <h3>准备好探索更多了吗？</h3>
+            <a href="../page2/" class="cta-button">前往页面二</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 xiafancat.github.io/ra - 保留所有权利</p>
+        </div>
+    </footer>
 </body>
 </html>
