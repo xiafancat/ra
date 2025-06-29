@@ -1,0 +1,88 @@
+/* 页面一特定样式 */
+.page-header {
+    text-align: center;
+    padding: 60px 0;
+    background: linear-gradient(135deg, #9b59b6, #3498db);
+    color: white;
+    border-radius: var(--border-radius);
+    margin: 40px 0;
+}
+
+.content-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin: 50px 0;
+}
+
+.info-card {
+    background: white;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow);
+}
+
+.info-card ul {
+    padding-left: 20px;
+    margin: 15px 0;
+}
+
+.info-card li {
+    margin-bottom: 10px;
+}
+
+.image-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+}
+
+.gallery-item {
+    background: #3498db;
+    height: 150px;
+    border-radius: var(--border-radius);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+}
+
+.cta-section {
+    text-align: center;
+    padding: 50px 0;
+    background-color: #f8f9fa;
+    border-radius: var(--border-radius);
+    margin: 40px 0;
+}
+
+.cta-button {
+    display: inline-block;
+    background: var(--accent-color);
+    color: white;
+    text-decoration: none;
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 20px;
+    transition: all 0.3s;
+}
+
+.cta-button:hover {
+    background: #c0392b;
+    transform: scale(1.05);
+}
+
+/* 响应式设计 */
+@media (max-width: 900px) {
+    .content-section {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .image-gallery {
+        grid-template-columns: 1fr;
+    }
+}
