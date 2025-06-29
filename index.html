@@ -1,9 +1,10 @@
+<!-- 主页面 index.html -->
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>主页面 - 123.com</title>
+    <title>主页面 - xiafancat.github.io/ra</title>
     <link rel="stylesheet" href="style.css">
     <style>
         .hero {
@@ -54,17 +55,25 @@
             background: #2980b9;
             transform: scale(1.05);
         }
+        
+        .domain-info {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="container">
-            <h1>123.com</h1>
+            <h1>xiafancat.github.io/ra</h1>
             <nav>
                 <ul>
-                    <li><a href="/">首页</a></li>
-                    <li><a href="/page1/">页面一</a></li>
-                    <li><a href="/page2/">页面二</a></li>
+                    <li><a href="./">首页</a></li>
+                    <li><a href="./page1/">页面一</a></li>
+                    <li><a href="./page2/">页面二</a></li>
                 </ul>
             </nav>
         </div>
@@ -72,7 +81,7 @@
 
     <section class="hero">
         <div class="container">
-            <h2>欢迎访问123.com</h2>
+            <h2>欢迎访问 xiafancat.github.io/ra</h2>
             <p>这是一个多页面网站示例，展示了如何在同一域名下创建子页面</p>
         </div>
     </section>
@@ -93,18 +102,22 @@
             </div>
         </section>
 
+        <div class="domain-info">
+            <h3>当前域名路径</h3>
+            <p><code>https://xiafancat.github.io/ra</code></p>
+            <p>所有页面和资源都使用相对路径，确保在您的域名下正常工作</p>
+        </div>
+
         <div class="page-links">
-            <a href="/page1/" class="page-link">访问页面一</a>
-            <a href="/page2/" class="page-link">访问页面二</a>
+            <a href="./page1/" class="page-link">访问页面一</a>
+            <a href="./page2/" class="page-link">访问页面二</a>
         </div>
     </main>
 
     <footer>
         <div class="container">
-            <p>&copy; 2023 123.com - 保留所有权利</p>
+            <p>&copy; 2023 xiafancat.github.io/ra - 保留所有权利</p>
         </div>
     </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>
