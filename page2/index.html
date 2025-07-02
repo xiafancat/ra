@@ -229,21 +229,36 @@
             height: 18px;
             border-radius: 50%;
         }
+        
+        .node-label {
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <h1><i class="fas fa-project-diagram"></i> 商品关系深度分析系统</h1>
-        <p>可视化展示商品间的关联关系，通过缩略图直观识别商品，帮助您发现市场机会和商品组合策略</p>
+        <p>可视化展示商品间的关联关系，气泡大小表示关联强度，帮助您发现市场机会和商品组合策略</p>
     </div>
 
     <div class="dashboard">
         <div class="chart-container main-chart">
             <div class="chart-title">
-                <span><i class="fas fa-network-wired"></i> 商品关系网络图</span>
+                <span><i class="fas fa-network-wired"></i> 商品关系气泡网络图</span>
                 <div class="controls">
                     <button class="btn" id="reset-btn">
                         <i class="fas fa-sync"></i> 重置视图
+                    </button>
+                    <button class="btn secondary" id="layout-btn">
+                        <i class="fas fa-sitemap"></i> 优化布局
                     </button>
                 </div>
             </div>
@@ -321,6 +336,7 @@
             // 添加事件监听
             document.getElementById('reset-btn').addEventListener('click', resetView);
             document.getElementById('expand-btn').addEventListener('click', expandTree);
+            document.getElementById('layout-btn').addEventListener('click', optimizeLayout);
             
             // 添加窗口自适应
             window.addEventListener('resize', () => {
@@ -458,6 +474,17 @@
         }
     }
 
+    // ✅ 优化布局
+    function optimizeLayout() {
+        mainChart.dispatchAction({
+            type: 'forceLayout',
+            animation: {
+                duration: 1000,
+                easing: 'cubicOut'
+            }
+        });
+    }
+
     // ✅ 展开树状图
     function expandTree() {
         if (selectedNode) {
@@ -465,7 +492,7 @@
         }
     }
 
-    // ✅ 主关系图配置
+    // ✅ 主关系图配置（气泡版）
     function renderMainChart() {
         // 计算节点连接数
         const linkCounts = {};
@@ -476,6 +503,7 @@
         });
         
         const maxLinks = Math.max(...Object.values(linkCounts));
+        const minLinks = Math.min(...Object.values(linkCounts));
         
         const option = {
             tooltip: {
@@ -495,13 +523,14 @@
                 layout: 'force',
                 force: {
                     repulsion: 300,
-                    edgeLength: 120,
+                    edgeLength: 150,
                     gravity: 0.1,
-                    friction: 0.1
+                    friction: 0.2
                 },
                 data: globalData.nodes.map(node => {
                     const links = linkCounts[node.id] || 0;
-                    const size = 20 + (links / maxLinks) * 50;
+                    // 计算气泡大小（基于连接数）
+                    const size = 20 + (links / maxLinks) * 80;
                     
                     // 根据连接数设置颜色
                     let color;
@@ -509,35 +538,49 @@
                     else if (links > maxLinks * 0.4) color = '#2ecc71';
                     else color = '#e74c3c';
                     
+                    // 计算节点重要度（0-1）
+                    const importance = (links - minLinks) / (maxLinks - minLinks);
+                    
                     return {
                         ...node,
+                        value: links, // 存储连接数
                         symbolSize: size,
-                        symbol: `image://${node.缩略图}`,
+                        symbol: 'circle',
                         itemStyle: {
-                            color: color,
+                            color: {
+                                type: 'radial',
+                                x: 0.5,
+                                y: 0.5,
+                                r: 0.5,
+                                colorStops: [
+                                    {
+                                        offset: 0,
+                                        color: color
+                                    },
+                                    {
+                                        offset: 1,
+                                        color: 'rgba(0,0,0,0.2)'
+                                    }
+                                ],
+                                global: false
+                            },
                             borderColor: '#fff',
                             borderWidth: 2,
-                            borderType: 'solid'
+                            shadowColor: 'rgba(0, 0, 0, 0.5)',
+                            shadowBlur: 10
                         },
                         label: {
                             show: true,
-                            position: 'bottom',
-                            fontSize: 12,
-                            fontWeight: 'normal',
-                            color: '#ecf0f1',
-                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                            padding: [4, 8],
-                            borderRadius: 4,
-                            formatter: ({ data }) => {
-                                const words = data.title.split(' ');
-                                return words.slice(0, 2).join(' ') + (words.length > 2 ? '...' : '');
+                            position: 'inside',
+                            fontSize: Math.max(10, 10 + importance * 8),
+                            fontWeight: 'bold',
+                            color: '#fff',
+                            formatter: function(params) {
+                                const words = params.data.title.split(' ');
+                                return words.map(word => word.charAt(0)).join('');
                             }
                         },
                         emphasis: {
-                            label: {
-                                show: true,
-                                fontSize: 14
-                            },
                             itemStyle: {
                                 borderWidth: 4,
                                 shadowBlur: 20,
@@ -590,7 +633,7 @@
                 mainChart.dispatchAction({
                     type: 'highlight',
                     seriesIndex: 0,
-                    dataIndex: 0
+                    dataIndex: [0]
                 });
             }, 500);
         }
