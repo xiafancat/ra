@@ -246,13 +246,13 @@
 <body>
     <div class="header">
         <h1><i class="fas fa-project-diagram"></i> 商品关系深度分析系统</h1>
-        <p>可视化展示商品间的关联关系，圆形大小表示关联强度，帮助您发现市场机会和商品组合策略</p>
+        <p>可视化展示商品间的关联关系，气泡大小表示关联强度，帮助您发现市场机会和商品组合策略</p>
     </div>
 
     <div class="dashboard">
         <div class="chart-container main-chart">
             <div class="chart-title">
-                <span><i class="fas fa-network-wired"></i> 商品关系网络图</span>
+                <span><i class="fas fa-network-wired"></i> 商品关系气泡网络图</span>
                 <div class="controls">
                     <button class="btn" id="reset-btn">
                         <i class="fas fa-sync"></i> 重置视图
@@ -266,15 +266,15 @@
             <div class="legend">
                 <div class="legend-item">
                     <div class="legend-color" style="background-color: #3498db;"></div>
-                    <span>核心商品节点（连接数多）</span>
+                    <span>核心商品节点</span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-color" style="background-color: #2ecc71;"></div>
-                    <span>中度关联商品</span>
+                    <span>高度关联商品</span>
                 </div>
                 <div class="legend-item">
                     <div class="legend-color" style="background-color: #e74c3c;"></div>
-                    <span>边缘商品节点（连接数少）</span>
+                    <span>边缘商品节点</span>
                 </div>
             </div>
         </div>
@@ -447,10 +447,7 @@
                 {"source": "B07XJ8Y5K9", "target": "B081138277"},
                 {"source": "B08C4Y6HXK", "target": "B066595945"},
                 {"source": "B08H7Y9ZQY", "target": "B019606483"},
-                {"source": "B07W6ZQYH6", "target": "B019606483"},
-                {"source": "B081138277", "target": "B08C4Y6HXK"},
-                {"source": "B002793567", "target": "B07XJ8Y5K9"},
-                {"source": "B07XJ8Y5K9", "target": "B08H7Y9ZQY"}
+                {"source": "B07W6ZQYH6", "target": "B019606483"}
             ]
         };
     }
@@ -495,7 +492,7 @@
         }
     }
 
-    // ✅ 主关系图配置（圆形节点版）
+    // ✅ 主关系图配置（气泡版）
     function renderMainChart() {
         // 计算节点连接数
         const linkCounts = {};
@@ -532,8 +529,8 @@
                 },
                 data: globalData.nodes.map(node => {
                     const links = linkCounts[node.id] || 0;
-                    // 计算圆形大小（基于连接数）
-                    const size = 20 + (links / maxLinks) * 60;
+                    // 计算气泡大小（基于连接数）
+                    const size = 20 + (links / maxLinks) * 80;
                     
                     // 根据连接数设置颜色
                     let color;
@@ -550,7 +547,23 @@
                         symbolSize: size,
                         symbol: 'circle',
                         itemStyle: {
-                            color: color,
+                            color: {
+                                type: 'radial',
+                                x: 0.5,
+                                y: 0.5,
+                                r: 0.5,
+                                colorStops: [
+                                    {
+                                        offset: 0,
+                                        color: color
+                                    },
+                                    {
+                                        offset: 1,
+                                        color: 'rgba(0,0,0,0.2)'
+                                    }
+                                ],
+                                global: false
+                            },
                             borderColor: '#fff',
                             borderWidth: 2,
                             shadowColor: 'rgba(0, 0, 0, 0.5)',
@@ -563,10 +576,8 @@
                             fontWeight: 'bold',
                             color: '#fff',
                             formatter: function(params) {
-                                // 只显示前两个单词的首字母
                                 const words = params.data.title.split(' ');
-                                const initials = words.slice(0, 2).map(word => word.charAt(0)).join('');
-                                return initials;
+                                return words.map(word => word.charAt(0)).join('');
                             }
                         },
                         emphasis: {
@@ -766,11 +777,6 @@
                     margin-top: 15px;
                 ">
                     <div style="font-size: 16px; color: #3498db; font-weight: 600;">ASIN: ${data.id}</div>
-                    <div style="font-size: 14px; margin-top: 8px; color: #2ecc71;">
-                        关联数: ${globalData.links.filter(link => 
-                            link.source === data.id || link.target === data.id
-                        ).length}
-                    </div>
                 </div>
             </div>
         `;
