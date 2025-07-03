@@ -14,7 +14,7 @@
         }
 
         body {
-            background: linear-gradient(135deg, #1a2a6c, #2c3e50);
+            background: linear-gradient(135deg, #0f1b31, #1c2e4a);
             min-height: 100vh;
             padding: 20px;
             color: #ecf0f1;
@@ -22,17 +22,18 @@
 
         .header {
             text-align: center;
-            padding: 30px 0;
+            padding: 25px 0;
             margin-bottom: 25px;
             background: rgba(255, 255, 255, 0.08);
             border-radius: 16px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
         }
 
         .header h1 {
-            font-size: 2.8rem;
+            font-size: 2.6rem;
             background: linear-gradient(45deg, #3498db, #2ecc71);
             -webkit-background-clip: text;
             background-clip: text;
@@ -42,18 +43,62 @@
         }
 
         .header p {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #bdc3c7;
             max-width: 800px;
             margin: 0 auto;
             line-height: 1.7;
         }
 
+        .file-upload-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .file-upload-btn {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .file-upload-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #2573a7);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.5);
+        }
+
+        #file-input {
+            display: none;
+        }
+
+        .file-name {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 12px 20px;
+            border-radius: 8px;
+            min-width: 250px;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
         .dashboard {
             display: flex;
+            flex-direction: column;
             gap: 25px;
             max-width: 1800px;
             margin: 0 auto;
+            height: calc(100vh - 220px);
         }
 
         .chart-container {
@@ -72,21 +117,29 @@
         }
 
         .main-chart {
-            flex: 3;
-            height: 650px;
+            height: 60%;
+        }
+
+        .bottom-panel {
+            display: flex;
+            gap: 25px;
+            height: 40%;
         }
 
         .detail-chart {
-            flex: 2;
-            height: 650px;
-            display: flex;
-            flex-direction: column;
+            flex: 1;
+            height: 100%;
+        }
+
+        .depth-panel {
+            flex: 1;
+            height: 100%;
         }
 
         .chart-title {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: #3498db;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
             padding-bottom: 15px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.15);
             display: flex;
@@ -96,13 +149,12 @@
 
         .controls {
             display: flex;
-            gap: 15px;
-            margin-top: 15px;
+            gap: 12px;
             justify-content: center;
         }
 
         .btn {
-            padding: 10px 22px;
+            padding: 8px 16px;
             border-radius: 8px;
             border: none;
             background: linear-gradient(135deg, #3498db, #2980b9);
@@ -112,13 +164,14 @@
             transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 8px;
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            gap: 6px;
+            box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+            font-size: 0.85rem;
         }
 
         .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.5);
+            box-shadow: 0 6px 15px rgba(52, 152, 219, 0.5);
         }
 
         .btn.secondary {
@@ -126,7 +179,7 @@
         }
 
         .btn.secondary:hover {
-            box-shadow: 0 6px 20px rgba(44, 62, 80, 0.5);
+            box-shadow: 0 6px 15px rgba(44, 62, 80, 0.5);
         }
 
         .loading-overlay {
@@ -135,7 +188,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: rgba(26, 42, 108, 0.95);
+            background: rgba(15, 27, 49, 0.95);
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -145,21 +198,21 @@
         }
 
         .spinner {
-            width: 70px;
-            height: 70px;
+            width: 60px;
+            height: 60px;
             border: 5px solid rgba(52, 152, 219, 0.3);
             border-top: 5px solid #3498db;
             border-radius: 50%;
             animation: spin 1.2s linear infinite;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
         }
 
         .loading-text {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             color: #ecf0f1;
             font-weight: 500;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
 
         .loading-subtext {
@@ -167,14 +220,15 @@
             max-width: 500px;
             text-align: center;
             line-height: 1.6;
+            font-size: 1rem;
         }
 
         .progress-bar {
-            width: 400px;
-            height: 10px;
+            width: 350px;
+            height: 8px;
             background: rgba(255, 255, 255, 0.1);
-            border-radius: 5px;
-            margin-top: 30px;
+            border-radius: 4px;
+            margin-top: 25px;
             overflow: hidden;
         }
 
@@ -183,7 +237,7 @@
             background: linear-gradient(90deg, #3498db, #2ecc71);
             width: 0%;
             transition: width 0.6s ease;
-            border-radius: 5px;
+            border-radius: 4px;
         }
 
         @keyframes spin {
@@ -202,17 +256,17 @@
 
         .footer {
             text-align: center;
-            margin-top: 40px;
-            padding: 25px;
+            margin-top: 30px;
+            padding: 20px;
             color: #7f8c8d;
-            font-size: 1rem;
+            font-size: 0.9rem;
         }
 
         .legend {
             display: flex;
             justify-content: center;
-            gap: 25px;
-            margin-top: 20px;
+            gap: 20px;
+            margin-top: 15px;
             flex-wrap: wrap;
         }
 
@@ -220,38 +274,21 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             background: rgba(255, 255, 255, 0.1);
-            padding: 8px 15px;
-            border-radius: 30px;
+            padding: 6px 12px;
+            border-radius: 20px;
         }
 
         .legend-color {
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
             border-radius: 50%;
         }
         
-        .node-label {
-            font-size: 12px;
-            font-weight: 500;
-            text-align: center;
-            color: #fff;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
-            max-width: 80px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-        
-        /* 新增的关联深度面板样式 */
+        /* 关联深度面板样式 */
         .relation-depth-panel {
-            flex: 1;
-            margin-top: 20px;
-            background: rgba(0, 0, 0, 0.15);
-            border-radius: 12px;
-            padding: 15px;
-            overflow: hidden;
+            height: 100%;
             display: flex;
             flex-direction: column;
         }
@@ -266,24 +303,24 @@
         }
         
         .depth-title {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #3498db;
             font-weight: 600;
         }
         
         .depth-controls {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
         
         .depth-btn {
-            padding: 6px 12px;
+            padding: 5px 10px;
             border-radius: 6px;
             background: rgba(52, 152, 219, 0.2);
             color: #3498db;
             border: none;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             transition: all 0.2s;
         }
         
@@ -303,15 +340,17 @@
         
         .depth-table th {
             background: rgba(52, 152, 219, 0.2);
-            padding: 10px;
+            padding: 8px 10px;
             text-align: left;
             font-weight: 600;
             color: #3498db;
+            font-size: 0.9rem;
         }
         
         .depth-table td {
-            padding: 12px 10px;
+            padding: 10px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
         }
         
         .depth-table tr:nth-child(even) {
@@ -324,14 +363,15 @@
         
         .rank-badge {
             display: inline-block;
-            width: 24px;
-            height: 24px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
             background: #3498db;
             text-align: center;
-            line-height: 24px;
+            line-height: 22px;
             font-weight: bold;
-            margin-right: 10px;
+            font-size: 0.85rem;
+            margin-right: 8px;
         }
         
         .rank-1 .rank-badge { background: #f1c40f; }
@@ -340,12 +380,12 @@
         
         .relation-count {
             display: inline-block;
-            padding: 2px 10px;
-            border-radius: 20px;
+            padding: 2px 8px;
+            border-radius: 16px;
             background: rgba(52, 152, 219, 0.2);
             color: #3498db;
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
         }
         
         .depth-table .asin-title {
@@ -354,101 +394,162 @@
         }
         
         .thumbnail-small {
-            width: 30px;
-            height: 30px;
+            width: 28px;
+            height: 28px;
             border-radius: 4px;
-            margin-right: 10px;
+            margin-right: 8px;
             object-fit: cover;
             border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* 调整图表容器高度 */
+        #main-network {
+            width: 100%;
+            height: calc(100% - 50px);
+        }
+        
+        #detail-tree {
+            width: 100%;
+            height: calc(100% - 50px);
+        }
+        
+        /* 空状态提示 */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #7f8c8d;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #3498db;
+        }
+        
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #ecf0f1;
+        }
+        
+        .empty-state p {
+            max-width: 500px;
+            line-height: 1.6;
         }
     </style>
 </head>
 <body>
     <div class="header">
         <h1><i class="fas fa-project-diagram"></i> 商品关系深度分析系统</h1>
-        <p>可视化展示商品间的关联关系，气泡大小表示关联强度，帮助您发现市场机会和商品组合策略</p>
+        <p>上传JSON文件可视化商品关联关系，气泡大小表示关联强度</p>
+        
+        <div class="file-upload-container">
+            <button class="file-upload-btn" id="upload-btn">
+                <i class="fas fa-file-upload"></i> 选择JSON文件
+            </button>
+            <input type="file" id="file-input" accept=".json">
+            <div class="file-name" id="file-name">未选择文件</div>
+            <button class="btn" id="analyze-btn" disabled>
+                <i class="fas fa-chart-network"></i> 开始分析
+            </button>
+        </div>
     </div>
 
     <div class="dashboard">
+        <!-- 上方：商品关系气泡网络图 -->
         <div class="chart-container main-chart">
             <div class="chart-title">
                 <span><i class="fas fa-network-wired"></i> 商品关系气泡网络图</span>
                 <div class="controls">
-                    <button class="btn" id="reset-btn">
+                    <button class="btn" id="reset-btn" disabled>
                         <i class="fas fa-sync"></i> 重置视图
                     </button>
-                    <button class="btn secondary" id="layout-btn">
+                    <button class="btn secondary" id="layout-btn" disabled>
                         <i class="fas fa-sitemap"></i> 优化布局
                     </button>
                 </div>
             </div>
-            <div id="main-network" style="width: 100%; height: 550px;"></div>
-            <div class="legend">
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #3498db;"></div>
-                    <span>核心商品节点</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #2ecc71;"></div>
-                    <span>高度关联商品</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-color" style="background-color: #e74c3c;"></div>
-                    <span>边缘商品节点</span>
+            <div id="main-network">
+                <div class="empty-state">
+                    <i class="fas fa-cloud-upload-alt"></i>
+                    <h3>等待数据导入</h3>
+                    <p>请上传JSON文件以生成商品关系网络图。JSON文件应包含"nodes"和"links"数据结构。</p>
                 </div>
             </div>
         </div>
-
-        <div class="chart-container detail-chart">
-            <div class="chart-title">
-                <span><i class="fas fa-sitemap"></i> 商品关联树</span>
-                <div class="controls">
-                    <button class="btn secondary" id="expand-btn">
-                        <i class="fas fa-expand"></i> 全部展开
-                    </button>
-                </div>
-            </div>
-            <div id="detail-tree" style="width: 100%; height: 300px;"></div>
-            
-            <!-- 新增的关联深度面板 -->
-            <div class="relation-depth-panel">
-                <div class="depth-header">
-                    <div class="depth-title"><i class="fas fa-sort-amount-down"></i> 关联深度排序</div>
-                    <div class="depth-controls">
-                        <button class="depth-btn" id="sort-by-count">
-                            <i class="fas fa-sort-numeric-down-alt"></i> 按关联数
-                        </button>
-                        <button class="depth-btn" id="sort-by-depth">
-                            <i class="fas fa-layer-group"></i> 按深度
+        
+        <!-- 下方：关联树和关联深度排序 -->
+        <div class="bottom-panel">
+            <!-- 左侧：关联树 -->
+            <div class="chart-container detail-chart">
+                <div class="chart-title">
+                    <span><i class="fas fa-sitemap"></i> 商品关联树</span>
+                    <div class="controls">
+                        <button class="btn secondary" id="expand-btn" disabled>
+                            <i class="fas fa-expand"></i> 全部展开
                         </button>
                     </div>
                 </div>
-                <div class="depth-table">
-                    <table id="depth-table">
-                        <thead>
-                            <tr>
-                                <th width="50">排名</th>
-                                <th>商品</th>
-                                <th width="100">关联数量</th>
-                                <th width="100">关联深度</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <!-- 数据将通过JS动态填充 -->
-                        </tbody>
-                    </table>
+                <div id="detail-tree">
+                    <div class="empty-state">
+                        <i class="fas fa-project-diagram"></i>
+                        <h3>数据加载后显示</h3>
+                        <p>上传并分析JSON文件后，此处将显示选定商品的关联关系树。</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧：关联深度排序 -->
+            <div class="chart-container depth-panel">
+                <div class="relation-depth-panel">
+                    <div class="depth-header">
+                        <div class="depth-title"><i class="fas fa-sort-amount-down"></i> 关联深度排序</div>
+                        <div class="depth-controls">
+                            <button class="depth-btn" id="sort-by-count" disabled>
+                                <i class="fas fa-sort-numeric-down-alt"></i> 按关联数
+                            </button>
+                            <button class="depth-btn" id="sort-by-depth" disabled>
+                                <i class="fas fa-layer-group"></i> 按深度
+                            </button>
+                        </div>
+                    </div>
+                    <div class="depth-table">
+                        <table id="depth-table">
+                            <thead>
+                                <tr>
+                                    <th width="50">排名</th>
+                                    <th>商品</th>
+                                    <th width="90">关联数量</th>
+                                    <th width="90">关联深度</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="4" style="text-align: center; padding: 40px 0; color: #7f8c8d;">
+                                        <i class="fas fa-database" style="font-size: 2rem; margin-bottom: 15px; display: block;"></i>
+                                        请上传JSON文件并点击"开始分析"
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="footer">
-        <p>商品关系深度分析系统 © 2023 | 数据每24小时自动更新</p>
+        <p>商品关系深度分析系统 © 2023 | 支持JSON文件导入</p>
     </div>
 
-    <div class="loading-overlay" id="loader">
+    <div class="loading-overlay" id="loader" style="display: none;">
         <div class="spinner"></div>
-        <div class="loading-text">正在加载商品关系数据...</div>
+        <div class="loading-text">正在分析商品关系数据...</div>
         <div class="loading-subtext">系统正在解析商品关联关系，并准备可视化展示</div>
         <div class="progress-bar">
             <div class="progress" id="progress"></div>
@@ -462,55 +563,114 @@
     let selectedNode = null;
     let linkCounts = {};
     let nodeDepths = {};
+    let currentFile = null;
 
     // ✅ 初始化函数
-    (async function init() {
-        try {
-            // 模拟进度条
-            simulateProgress();
-            
-            // 创建图表实例
-            mainChart = echarts.init(document.getElementById('main-network'));
-            detailChart = echarts.init(document.getElementById('detail-tree'));
-            
-            // 加载商品数据
-            globalData = await loadData('data/product_relations.json');
-            
-            // 计算节点连接数和深度
-            calculateNodeMetrics();
-            
-            // 渲染图表
-            renderMainChart();
-            
-            // 渲染关联深度排序表
-            renderDepthTable();
-            
-            // 默认选中第一个节点
-            if (globalData.nodes.length > 0) {
-                selectedNode = globalData.nodes[0];
-                renderDetailTree(selectedNode);
-            }
-            
-            // 添加事件监听
-            document.getElementById('reset-btn').addEventListener('click', resetView);
-            document.getElementById('expand-btn').addEventListener('click', expandTree);
-            document.getElementById('layout-btn').addEventListener('click', optimizeLayout);
-            document.getElementById('sort-by-count').addEventListener('click', () => renderDepthTable('count'));
-            document.getElementById('sort-by-depth').addEventListener('click', () => renderDepthTable('depth'));
-            
-            // 添加窗口自适应
-            window.addEventListener('resize', () => {
-                mainChart.resize();
-                detailChart.resize();
-            });
-            
-        } catch (error) {
-            console.error('初始化失败:', error);
-            document.querySelector('.loading-text').textContent = `初始化失败: ${error.message}`;
-            document.querySelector('.loading-subtext').textContent = '请检查数据文件路径或网络连接';
-            setTimeout(hideLoader, 5000);
-        }
+    (function init() {
+        // 创建图表实例
+        mainChart = echarts.init(document.getElementById('main-network'));
+        detailChart = echarts.init(document.getElementById('detail-tree'));
+        
+        // 添加事件监听
+        document.getElementById('upload-btn').addEventListener('click', () => {
+            document.getElementById('file-input').click();
+        });
+        
+        document.getElementById('file-input').addEventListener('change', handleFileSelect);
+        document.getElementById('analyze-btn').addEventListener('click', analyzeData);
+        document.getElementById('reset-btn').addEventListener('click', resetView);
+        document.getElementById('expand-btn').addEventListener('click', expandTree);
+        document.getElementById('layout-btn').addEventListener('click', optimizeLayout);
+        document.getElementById('sort-by-count').addEventListener('click', () => renderDepthTable('count'));
+        document.getElementById('sort-by-depth').addEventListener('click', () => renderDepthTable('depth'));
+        
+        // 添加窗口自适应
+        window.addEventListener('resize', () => {
+            mainChart.resize();
+            detailChart.resize();
+        });
     })();
+
+    // ✅ 处理文件选择
+    function handleFileSelect(event) {
+        const file = event.target.files[0];
+        if (file) {
+            currentFile = file;
+            document.getElementById('file-name').textContent = file.name;
+            document.getElementById('analyze-btn').disabled = false;
+        }
+    }
+
+    // ✅ 分析数据
+    function analyzeData() {
+        if (!currentFile) return;
+        
+        showLoader();
+        
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            try {
+                const data = JSON.parse(e.target.result);
+                
+                // 验证数据结构
+                if (!data.nodes || !data.links) {
+                    throw new Error('无效的JSON格式: 缺少nodes或links属性');
+                }
+                
+                globalData = data;
+                
+                // 计算节点连接数和深度
+                calculateNodeMetrics();
+                
+                // 渲染图表
+                renderMainChart();
+                
+                // 渲染关联深度排序表
+                renderDepthTable();
+                
+                // 默认选中第一个节点
+                if (globalData.nodes.length > 0) {
+                    selectedNode = globalData.nodes[0];
+                    renderDetailTree(selectedNode);
+                }
+                
+                // 启用控件
+                document.getElementById('reset-btn').disabled = false;
+                document.getElementById('layout-btn').disabled = false;
+                document.getElementById('expand-btn').disabled = false;
+                document.getElementById('sort-by-count').disabled = false;
+                document.getElementById('sort-by-depth').disabled = false;
+                
+            } catch (error) {
+                console.error('数据分析失败:', error);
+                alert(`数据分析失败: ${error.message}`);
+                hideLoader();
+            }
+        };
+        
+        reader.onerror = function() {
+            alert('文件读取失败');
+            hideLoader();
+        };
+        
+        reader.readAsText(currentFile);
+    }
+
+    // ✅ 显示加载界面
+    function showLoader() {
+        document.getElementById('loader').style.display = 'flex';
+        simulateProgress();
+    }
+
+    // ✅ 隐藏加载界面
+    function hideLoader() {
+        document.getElementById('loader').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('loader').style.display = 'none';
+            document.getElementById('loader').style.opacity = '1';
+        }, 400);
+    }
 
     // ✅ 模拟进度条
     function simulateProgress() {
@@ -524,29 +684,6 @@
             width += 2;
             progress.style.width = `${width}%`;
         }, 80);
-    }
-
-    // ✅ 加载数据
-    async function loadData(url) {
-        try {
-            // 使用相对路径加载数据
-            const response = await fetch(url);
-            if (!response.ok) {
-                throw new Error(`数据加载失败: HTTP ${response.status}`);
-            }
-            const data = await response.json();
-            
-            // 验证数据结构
-            if (!data.nodes || !data.links) {
-                throw new Error('无效的数据格式: 缺少nodes或links属性');
-            }
-            
-            return data;
-        } catch (error) {
-            // 如果加载失败，使用示例数据
-            console.error('加载数据失败，使用示例数据:', error);
-            return getFallbackData();
-        }
     }
 
     // ✅ 计算节点指标
@@ -577,6 +714,7 @@
             
             while (queue.length > 0) {
                 const {node, depth} = queue.shift();
+                visited.add(node.id);
                 maxDepth = Math.max(maxDepth, depth);
                 
                 // 获取所有关联节点
@@ -585,93 +723,18 @@
                     ...globalData.links.filter(l => l.target === node.id).map(l => l.source)
                 ];
                 
-                neighbors.forEach(neighborId => {
+                for (const neighborId of neighbors) {
                     if (!visited.has(neighborId)) {
-                        visited.add(neighborId);
                         const neighbor = nodeMap.get(neighborId);
                         if (neighbor) {
                             queue.push({node: neighbor, depth: depth + 1});
                         }
                     }
-                });
+                }
             }
             
             nodeDepths[node.id] = maxDepth;
         });
-    }
-
-    // ✅ 获取回退数据
-    function getFallbackData() {
-        return {
-            "nodes": [
-                {
-                    "id": "B066595945",
-                    "title": "JBL Flip 5 便携式蓝牙音箱",
-                    "缩略图": "https://via.placeholder.com/150/3498db/FFFFFF?text=JBL+Speaker"
-                },
-                {
-                    "id": "B019606483",
-                    "title": "Sony WH-1000XM4 无线降噪耳机",
-                    "缩略图": "https://via.placeholder.com/150/2ecc71/FFFFFF?text=Sony+Headphones"
-                },
-                {
-                    "id": "B081138277",
-                    "title": "Apple AirPods Pro",
-                    "缩略图": "https://via.placeholder.com/150/e74c3c/FFFFFF?text=AirPods+Pro"
-                },
-                {
-                    "id": "B002793567",
-                    "title": "Bose SoundLink 蓝牙音箱",
-                    "缩略图": "https://via.placeholder.com/150/9b59b6/FFFFFF?text=Bose+Speaker"
-                },
-                {
-                    "id": "B07XJ8Y5K9",
-                    "title": "Samsung Galaxy Buds Pro",
-                    "缩略图": "https://via.placeholder.com/150/1abc9c/FFFFFF?text=Galaxy+Buds"
-                },
-                {
-                    "id": "B08C4Y6HXK",
-                    "title": "Anker Soundcore 蓝牙音箱",
-                    "缩略图": "https://via.placeholder.com/150/f1c40f/FFFFFF?text=Soundcore"
-                },
-                {
-                    "id": "B08H7Y9ZQY",
-                    "title": "Jabra Elite 85t 无线耳机",
-                    "缩略图": "https://via.placeholder.com/150/e67e22/FFFFFF?text=Jabra+Elite"
-                },
-                {
-                    "id": "B07W6ZQYH6",
-                    "title": "Beats Solo Pro 无线耳机",
-                    "缩略图": "https://via.placeholder.com/150/34495e/FFFFFF?text=Beats+Solo"
-                }
-            ],
-            "links": [
-                {"source": "B066595945", "target": "B002793567"},
-                {"source": "B066595945", "target": "B08C4Y6HXK"},
-                {"source": "B019606483", "target": "B081138277"},
-                {"source": "B019606483", "target": "B08H7Y9ZQY"},
-                {"source": "B019606483", "target": "B07W6ZQYH6"},
-                {"source": "B081138277", "target": "B07XJ8Y5K9"},
-                {"source": "B081138277", "target": "B019606483"},
-                {"source": "B002793567", "target": "B066595945"},
-                {"source": "B002793567", "target": "B08C4Y6HXK"},
-                {"source": "B07XJ8Y5K9", "target": "B081138277"},
-                {"source": "B08C4Y6HXK", "target": "B066595945"},
-                {"source": "B08H7Y9ZQY", "target": "B019606483"},
-                {"source": "B07W6ZQYH6", "target": "B019606483"},
-                {"source": "B07XJ8Y5K9", "target": "B08H7Y9ZQY"},
-                {"source": "B07XJ8Y5K9", "target": "B07W6ZQYH6"},
-                {"source": "B08C4Y6HXK", "target": "B08H7Y9ZQY"}
-            ]
-        };
-    }
-
-    // ✅ 隐藏加载界面
-    function hideLoader() {
-        document.getElementById('loader').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('loader').style.display = 'none';
-        }, 400);
     }
 
     // ✅ 重置视图
@@ -708,6 +771,8 @@
 
     // ✅ 渲染关联深度排序表
     function renderDepthTable(sortBy = 'count') {
+        if (!globalData) return;
+        
         // 创建节点数据副本
         const nodes = [...globalData.nodes];
         
@@ -723,7 +788,7 @@
         tbody.innerHTML = '';
         
         // 添加行
-        nodes.slice(0, 20).forEach((node, index) => {
+        nodes.slice(0, 15).forEach((node, index) => {
             const row = document.createElement('tr');
             if (index < 3) {
                 row.classList.add(`rank-${index + 1}`);
@@ -735,10 +800,10 @@
                 </td>
                 <td>
                     <div class="asin-title">
-                        <img src="${node.缩略图}" class="thumbnail-small">
+                        <img src="${node.缩略图 || 'https://via.placeholder.com/40/2c3e50/ecf0f1?text=IMG'}" class="thumbnail-small">
                         <div>
                             <div>${node.title.substring(0, 30)}${node.title.length > 30 ? '...' : ''}</div>
-                            <div style="font-size: 0.85rem; color: #95a5a6; margin-top: 4px;">ASIN: ${node.id}</div>
+                            <div style="font-size: 0.8rem; color: #95a5a6; margin-top: 2px;">ASIN: ${node.id}</div>
                         </div>
                     </div>
                 </td>
@@ -956,7 +1021,7 @@
                     color: '#3498db',
                     borderColor: '#fff'
                 },
-                symbol: `image://${selectedNode.缩略图}`,
+                symbol: `image://${selectedNode.缩略图 || 'https://via.placeholder.com/40/2c3e50/ecf0f1?text=IMG'}`,
                 symbolSize: [40, 40],
                 animationDuration: 800
             }]
@@ -990,7 +1055,7 @@
                 name: currentNode.title,
                 value: currentNode,
                 children: children.length ? children : null,
-                symbol: `image://${currentNode.缩略图}`,
+                symbol: `image://${currentNode.缩略图 || 'https://via.placeholder.com/30/2c3e50/ecf0f1?text=IMG'}`,
                 symbolSize: [30, 30],
                 itemStyle: {
                     color: '#3498db'
@@ -1029,7 +1094,7 @@
                 border: 1px solid #3498db;
             ">
                 <div style="text-align: center; margin-bottom: 15px;">
-                    <img src="${data.缩略图}" 
+                    <img src="${data.缩略图 || 'https://via.placeholder.com/150/2c3e50/ecf0f1?text=No+Image'}" 
                          style="width: 150px; height: 150px; border-radius: 8px; object-fit: cover; border: 2px solid #3498db;">
                 </div>
                 <div style="
