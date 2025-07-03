@@ -79,6 +79,8 @@
         .detail-chart {
             flex: 2;
             height: 650px;
+            display: flex;
+            flex-direction: column;
         }
 
         .chart-title {
@@ -229,21 +231,154 @@
             height: 18px;
             border-radius: 50%;
         }
+        
+        .node-label {
+            font-size: 12px;
+            font-weight: 500;
+            text-align: center;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+            max-width: 80px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        /* 新增的关联深度面板样式 */
+        .relation-depth-panel {
+            flex: 1;
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            padding: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .depth-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .depth-title {
+            font-size: 1.2rem;
+            color: #3498db;
+            font-weight: 600;
+        }
+        
+        .depth-controls {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .depth-btn {
+            padding: 6px 12px;
+            border-radius: 6px;
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        
+        .depth-btn:hover {
+            background: rgba(52, 152, 219, 0.4);
+        }
+        
+        .depth-table {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .depth-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .depth-table th {
+            background: rgba(52, 152, 219, 0.2);
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+            color: #3498db;
+        }
+        
+        .depth-table td {
+            padding: 12px 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .depth-table tr:nth-child(even) {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .depth-table tr:hover {
+            background: rgba(52, 152, 219, 0.15);
+        }
+        
+        .rank-badge {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #3498db;
+            text-align: center;
+            line-height: 24px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .rank-1 .rank-badge { background: #f1c40f; }
+        .rank-2 .rank-badge { background: #95a5a6; }
+        .rank-3 .rank-badge { background: #e67e22; }
+        
+        .relation-count {
+            display: inline-block;
+            padding: 2px 10px;
+            border-radius: 20px;
+            background: rgba(52, 152, 219, 0.2);
+            color: #3498db;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .depth-table .asin-title {
+            display: flex;
+            align-items: center;
+        }
+        
+        .thumbnail-small {
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            margin-right: 10px;
+            object-fit: cover;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
     </style>
 </head>
 <body>
     <div class="header">
         <h1><i class="fas fa-project-diagram"></i> 商品关系深度分析系统</h1>
-        <p>可视化展示商品间的关联关系，通过缩略图直观识别商品，帮助您发现市场机会和商品组合策略</p>
+        <p>可视化展示商品间的关联关系，气泡大小表示关联强度，帮助您发现市场机会和商品组合策略</p>
     </div>
 
     <div class="dashboard">
         <div class="chart-container main-chart">
             <div class="chart-title">
-                <span><i class="fas fa-network-wired"></i> 商品关系网络图</span>
+                <span><i class="fas fa-network-wired"></i> 商品关系气泡网络图</span>
                 <div class="controls">
                     <button class="btn" id="reset-btn">
                         <i class="fas fa-sync"></i> 重置视图
+                    </button>
+                    <button class="btn secondary" id="layout-btn">
+                        <i class="fas fa-sitemap"></i> 优化布局
                     </button>
                 </div>
             </div>
@@ -273,7 +408,37 @@
                     </button>
                 </div>
             </div>
-            <div id="detail-tree" style="width: 100%; height: 550px;"></div>
+            <div id="detail-tree" style="width: 100%; height: 300px;"></div>
+            
+            <!-- 新增的关联深度面板 -->
+            <div class="relation-depth-panel">
+                <div class="depth-header">
+                    <div class="depth-title"><i class="fas fa-sort-amount-down"></i> 关联深度排序</div>
+                    <div class="depth-controls">
+                        <button class="depth-btn" id="sort-by-count">
+                            <i class="fas fa-sort-numeric-down-alt"></i> 按关联数
+                        </button>
+                        <button class="depth-btn" id="sort-by-depth">
+                            <i class="fas fa-layer-group"></i> 按深度
+                        </button>
+                    </div>
+                </div>
+                <div class="depth-table">
+                    <table id="depth-table">
+                        <thead>
+                            <tr>
+                                <th width="50">排名</th>
+                                <th>商品</th>
+                                <th width="100">关联数量</th>
+                                <th width="100">关联深度</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- 数据将通过JS动态填充 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -295,6 +460,8 @@
     let detailChart = null;
     let globalData = null;
     let selectedNode = null;
+    let linkCounts = {};
+    let nodeDepths = {};
 
     // ✅ 初始化函数
     (async function init() {
@@ -306,11 +473,17 @@
             mainChart = echarts.init(document.getElementById('main-network'));
             detailChart = echarts.init(document.getElementById('detail-tree'));
             
-            // 加载商品数据 - 修复路径问题
+            // 加载商品数据
             globalData = await loadData('data/product_relations.json');
+            
+            // 计算节点连接数和深度
+            calculateNodeMetrics();
             
             // 渲染图表
             renderMainChart();
+            
+            // 渲染关联深度排序表
+            renderDepthTable();
             
             // 默认选中第一个节点
             if (globalData.nodes.length > 0) {
@@ -321,6 +494,9 @@
             // 添加事件监听
             document.getElementById('reset-btn').addEventListener('click', resetView);
             document.getElementById('expand-btn').addEventListener('click', expandTree);
+            document.getElementById('layout-btn').addEventListener('click', optimizeLayout);
+            document.getElementById('sort-by-count').addEventListener('click', () => renderDepthTable('count'));
+            document.getElementById('sort-by-depth').addEventListener('click', () => renderDepthTable('depth'));
             
             // 添加窗口自适应
             window.addEventListener('resize', () => {
@@ -350,7 +526,7 @@
         }, 80);
     }
 
-    // ✅ 加载数据 - 修复路径问题
+    // ✅ 加载数据
     async function loadData(url) {
         try {
             // 使用相对路径加载数据
@@ -371,6 +547,57 @@
             console.error('加载数据失败，使用示例数据:', error);
             return getFallbackData();
         }
+    }
+
+    // ✅ 计算节点指标
+    function calculateNodeMetrics() {
+        // 重置指标
+        linkCounts = {};
+        nodeDepths = {};
+        
+        // 初始化
+        globalData.nodes.forEach(node => {
+            linkCounts[node.id] = 0;
+            nodeDepths[node.id] = 0;
+        });
+        
+        // 计算连接数
+        globalData.links.forEach(link => {
+            linkCounts[link.source]++;
+            linkCounts[link.target]++;
+        });
+        
+        // 计算节点深度（使用BFS）
+        const nodeMap = new Map(globalData.nodes.map(n => [n.id, n]));
+        
+        globalData.nodes.forEach(node => {
+            const visited = new Set();
+            const queue = [{node: node, depth: 0}];
+            let maxDepth = 0;
+            
+            while (queue.length > 0) {
+                const {node, depth} = queue.shift();
+                maxDepth = Math.max(maxDepth, depth);
+                
+                // 获取所有关联节点
+                const neighbors = [
+                    ...globalData.links.filter(l => l.source === node.id).map(l => l.target),
+                    ...globalData.links.filter(l => l.target === node.id).map(l => l.source)
+                ];
+                
+                neighbors.forEach(neighborId => {
+                    if (!visited.has(neighborId)) {
+                        visited.add(neighborId);
+                        const neighbor = nodeMap.get(neighborId);
+                        if (neighbor) {
+                            queue.push({node: neighbor, depth: depth + 1});
+                        }
+                    }
+                });
+            }
+            
+            nodeDepths[node.id] = maxDepth;
+        });
     }
 
     // ✅ 获取回退数据
@@ -431,7 +658,10 @@
                 {"source": "B07XJ8Y5K9", "target": "B081138277"},
                 {"source": "B08C4Y6HXK", "target": "B066595945"},
                 {"source": "B08H7Y9ZQY", "target": "B019606483"},
-                {"source": "B07W6ZQYH6", "target": "B019606483"}
+                {"source": "B07W6ZQYH6", "target": "B019606483"},
+                {"source": "B07XJ8Y5K9", "target": "B08H7Y9ZQY"},
+                {"source": "B07XJ8Y5K9", "target": "B07W6ZQYH6"},
+                {"source": "B08C4Y6HXK", "target": "B08H7Y9ZQY"}
             ]
         };
     }
@@ -458,6 +688,17 @@
         }
     }
 
+    // ✅ 优化布局
+    function optimizeLayout() {
+        mainChart.dispatchAction({
+            type: 'forceLayout',
+            animation: {
+                duration: 1000,
+                easing: 'cubicOut'
+            }
+        });
+    }
+
     // ✅ 展开树状图
     function expandTree() {
         if (selectedNode) {
@@ -465,17 +706,74 @@
         }
     }
 
-    // ✅ 主关系图配置
+    // ✅ 渲染关联深度排序表
+    function renderDepthTable(sortBy = 'count') {
+        // 创建节点数据副本
+        const nodes = [...globalData.nodes];
+        
+        // 排序逻辑
+        if (sortBy === 'count') {
+            nodes.sort((a, b) => linkCounts[b.id] - linkCounts[a.id]);
+        } else {
+            nodes.sort((a, b) => nodeDepths[b.id] - nodeDepths[a.id]);
+        }
+        
+        // 获取表格容器
+        const tbody = document.querySelector('#depth-table tbody');
+        tbody.innerHTML = '';
+        
+        // 添加行
+        nodes.slice(0, 20).forEach((node, index) => {
+            const row = document.createElement('tr');
+            if (index < 3) {
+                row.classList.add(`rank-${index + 1}`);
+            }
+            
+            row.innerHTML = `
+                <td>
+                    <span class="rank-badge">${index + 1}</span>
+                </td>
+                <td>
+                    <div class="asin-title">
+                        <img src="${node.缩略图}" class="thumbnail-small">
+                        <div>
+                            <div>${node.title.substring(0, 30)}${node.title.length > 30 ? '...' : ''}</div>
+                            <div style="font-size: 0.85rem; color: #95a5a6; margin-top: 4px;">ASIN: ${node.id}</div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span class="relation-count">${linkCounts[node.id]}</span>
+                </td>
+                <td>
+                    <span class="relation-count">${nodeDepths[node.id]}</span>
+                </td>
+            `;
+            
+            // 添加点击事件
+            row.addEventListener('click', () => {
+                selectedNode = node;
+                renderDetailTree(node);
+                highlightRelatedNodes(node.id);
+                
+                // 高亮网络图中的节点
+                const nodeIndex = globalData.nodes.findIndex(n => n.id === node.id);
+                mainChart.dispatchAction({
+                    type: 'highlight',
+                    seriesIndex: 0,
+                    dataIndex: [nodeIndex]
+                });
+            });
+            
+            tbody.appendChild(row);
+        });
+    }
+
+    // ✅ 主关系图配置（气泡版）
     function renderMainChart() {
         // 计算节点连接数
-        const linkCounts = {};
-        globalData.nodes.forEach(node => linkCounts[node.id] = 0);
-        globalData.links.forEach(link => {
-            linkCounts[link.source]++;
-            linkCounts[link.target]++;
-        });
-        
         const maxLinks = Math.max(...Object.values(linkCounts));
+        const minLinks = Math.min(...Object.values(linkCounts));
         
         const option = {
             tooltip: {
@@ -495,13 +793,14 @@
                 layout: 'force',
                 force: {
                     repulsion: 300,
-                    edgeLength: 120,
+                    edgeLength: 150,
                     gravity: 0.1,
-                    friction: 0.1
+                    friction: 0.2
                 },
                 data: globalData.nodes.map(node => {
                     const links = linkCounts[node.id] || 0;
-                    const size = 20 + (links / maxLinks) * 50;
+                    // 计算气泡大小（基于连接数）
+                    const size = 20 + (links / maxLinks) * 80;
                     
                     // 根据连接数设置颜色
                     let color;
@@ -509,35 +808,49 @@
                     else if (links > maxLinks * 0.4) color = '#2ecc71';
                     else color = '#e74c3c';
                     
+                    // 计算节点重要度（0-1）
+                    const importance = (links - minLinks) / (maxLinks - minLinks);
+                    
                     return {
                         ...node,
+                        value: links, // 存储连接数
                         symbolSize: size,
-                        symbol: `image://${node.缩略图}`,
+                        symbol: 'circle',
                         itemStyle: {
-                            color: color,
+                            color: {
+                                type: 'radial',
+                                x: 0.5,
+                                y: 0.5,
+                                r: 0.5,
+                                colorStops: [
+                                    {
+                                        offset: 0,
+                                        color: color
+                                    },
+                                    {
+                                        offset: 1,
+                                        color: 'rgba(0,0,0,0.2)'
+                                    }
+                                ],
+                                global: false
+                            },
                             borderColor: '#fff',
                             borderWidth: 2,
-                            borderType: 'solid'
+                            shadowColor: 'rgba(0, 0, 0, 0.5)',
+                            shadowBlur: 10
                         },
                         label: {
                             show: true,
-                            position: 'bottom',
-                            fontSize: 12,
-                            fontWeight: 'normal',
-                            color: '#ecf0f1',
-                            backgroundColor: 'rgba(0, 0, 0, 0.7)',
-                            padding: [4, 8],
-                            borderRadius: 4,
-                            formatter: ({ data }) => {
-                                const words = data.title.split(' ');
-                                return words.slice(0, 2).join(' ') + (words.length > 2 ? '...' : '');
+                            position: 'inside',
+                            fontSize: Math.max(10, 10 + importance * 8),
+                            fontWeight: 'bold',
+                            color: '#fff',
+                            formatter: function(params) {
+                                const words = params.data.title.split(' ');
+                                return words.map(word => word.charAt(0)).join('');
                             }
                         },
                         emphasis: {
-                            label: {
-                                show: true,
-                                fontSize: 14
-                            },
                             itemStyle: {
                                 borderWidth: 4,
                                 shadowBlur: 20,
@@ -590,7 +903,7 @@
                 mainChart.dispatchAction({
                     type: 'highlight',
                     seriesIndex: 0,
-                    dataIndex: 0
+                    dataIndex: [0]
                 });
             }, 500);
         }
@@ -734,6 +1047,16 @@
                     margin-top: 15px;
                 ">
                     <div style="font-size: 16px; color: #3498db; font-weight: 600;">ASIN: ${data.id}</div>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-top: 15px;">
+                    <div style="text-align: center; flex: 1;">
+                        <div style="font-size: 14px; color: #bdc3c7;">关联数量</div>
+                        <div style="font-size: 24px; color: #2ecc71; font-weight: 700;">${linkCounts[data.id] || 0}</div>
+                    </div>
+                    <div style="text-align: center; flex: 1;">
+                        <div style="font-size: 14px; color: #bdc3c7;">关联深度</div>
+                        <div style="font-size: 24px; color: #f1c40f; font-weight: 700;">${nodeDepths[data.id] || 0}</div>
+                    </div>
                 </div>
             </div>
         `;
